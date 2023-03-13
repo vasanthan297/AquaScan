@@ -1,0 +1,36 @@
+{
+    "manifestVersion": 1,
+    "id": "Aqua-task",
+    "name": "secops",
+    "version": "0.0.15",
+    "publisher": "vasanthan297",
+    "targets": [
+        {
+            "id": "Microsoft.VisualStudio.Services"
+        }
+    ],    
+    "description": "POC.",
+    "categories": [
+        "Azure Pipelines"
+    ],
+    "icons": {
+        "default": "images/extension-icon.png"        
+    },
+    "files": [
+        {
+            "path": "Aqua"
+        }
+    ],
+  "contributions": [
+    {
+      "id": "Aqua",
+      "type": "ms.vss-distributed-task.task",
+      "targets": [
+        "ms.vss-distributed-task.tasks"
+      ],
+      "properties": {
+                "name": "Aqua"
+            }
+    }
+  ]
+}
