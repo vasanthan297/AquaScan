@@ -1,0 +1,51 @@
+const tl = require('azure-pipelines-task-lib/task');
+
+async function run() {
+  try {
+    const dockerPath = tl.which('docker', true);
+
+    const args = [
+      'run',
+      '-it',
+      '--rm',
+      '-v',
+      '/var/run/docker.sock:/var/run/docker.sock',
+      '-v',
+      '/tmp:/tmp',
+      'registry.aquasec.com/scanner:6.5',
+      'scan',
+      '-H',
+      'http://aqua-server:8080',
+      '--token',
+      '<Aqua_scanner_token>',
+      '--registry',
+      'Docker Hub',
+      'nginx:latest',
+      '--textfile',
+      '/tmp/foo.text',
+      '--register-compliant'
+    ];
+
+    const options = {
+      cwd: '',
+      env: {},
+      silent: false,
+      failOnStdErr: false,
+      errStream: process.stderr,
+      outStream: process.stdout,
+      windowsVerbatimArguments: false,
+      ignoreReturnCode: false,
+      encoding: 'utf8',
+      shell: false
+    };
+
+    const toolRunner = tl.tool(dockerPath);
+    toolRunner.arg(args);
+    const code = await toolRunner.exec(options);
+    console.log(`child process exited with code ${code}`);
+  } catch (error) {
+    tl.setResult(tl.TaskResult.Failed, error.message);
+  }
+}
+
+run();
